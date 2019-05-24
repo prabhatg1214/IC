@@ -1,0 +1,121 @@
+<!DOCTYPE HTML> 
+<html lang="en-us">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"> 
+<title>Prebid-Pubmatic</title> 
+
+<script type="text/javascript" src="https://s3.amazonaws.com/cdn.investingchannel.com/test/prebid2.3.0-Pubmatic.js"></script> 
+
+</head>
+<body>
+
+<p><button onclick="refreshBid()">Refresh Ad Unit</button></p>
+
+<div id='0'>
+<script type='text/javascript'>
+  
+  var ic_window = window.top;  
+
+
+  var adUnits = [];
+  var adSizes = ["728x90","300x250","300x600"];
+  // var adSizes = ["300x250"];
+  var mAdUnitSuffix = "pub";
+  
+  const customConfigObject = {
+      "buckets" : [{
+          "precision": 2,  //default is 2 if omitted - means 2.1234 rounded to 2 decimal places = 2.12
+          "min" : 0,
+          "max" : 3.5,
+          "increment" : 0.05
+      },
+      {
+          "precision": 2,
+          "min" : 3.5,
+          "max" : 35,
+          "increment" : 0.10
+      }]
+  };
+
+
+// code: adSizes[i],
+  for(var i = 0; i < adSizes.length; i++){
+    console.log('InvestingChannel_HV@'+adSizes[i]);
+      var size = adSizes[i].split("x");
+      adUnits.push({
+          code: adSizes[i] + mAdUnitSuffix,
+          mediaTypes: {
+              banner: { sizes: size }
+          },
+          bids: [{
+              bidder: 'pubmatic',
+              params: {publisherId: '52041', adSlot: 'InvestingChannel_HV@'+adSizes[i]}
+          }]
+      });
+  }
+
+    // console.log('InvestingChannel_HV@'+adSizes[i]);
+    // var size = [[300,600],[300,250]];
+    // adUnits.push({
+    //     code: '300x250' + mAdUnitSuffix,
+    //     mediaTypes: {
+    //         banner: { sizes: size }
+    //     },
+    //     bids: [{
+    //         bidder: 'pubmatic',
+    //         params: {publisherId: '52041', adSlot: 'InvestingChannel_HV@300x250'}
+    //     }]
+    // });
+
+// params: {publisherId: '52041', adSlot: 'ros@'+adSizes[i]}
+// params: {publisherId: '32572', adSlot: '38519891@300x250'}
+  console.log(adUnits);
+  
+  ic_window.pbjs.que.push(function() {
+        ic_window.pbjs.addAdUnits(adUnits);
+        ic_window.pbjs.setConfig({ priceGranularity: customConfigObject,
+            userSync: {
+                filterSettings: {
+                  iframe: {
+                    bidders: '*',      // '*' represents all bidders
+                    filter: 'include'
+                  }
+                }
+              } 
+        });
+        ic_window.pbjs.requestBids({
+            timeout: 1200,
+            bidsBackHandler: function(bidResponses) {
+              console.log("***** Received pubmatic");
+              console.log(bidResponses);
+            }    
+        })
+    });
+
+function refreshBid() {
+  ic_window.pbjs.que.push(function() {
+         pbjs.requestBids({
+           timeout: 1200,
+           adUnitCodes: ['728x90' + mAdUnitSuffix],
+           bidsBackHandler: function(bidResponses) {
+            console.log("***** Refresh bid response: ");
+            console.log(bidResponses);
+            // console.log(bidResponses['728x90'].bids[0]);
+            // console.log("getAdserverTargetingForAdUnitCode: ");
+            // console.log(ic_window.pbjs.getAdserverTargetingForAdUnitCode('728x90'));
+            // window.top.pbjs.renderAd(document, bidResponses['728x90'].bids[0].adId);
+            // console.log(window.top.pbjs.renderAd(document, ic_window.pbjs.getAdserverTargetingForAdUnitCode('728x90').hb_adid));
+           }
+         });
+       });
+}
+
+
+</script>
+</div>
+<div id='1'></div>
+<div id='2'></div>
+<div id='3'></div>
+
+</body>
+</html>

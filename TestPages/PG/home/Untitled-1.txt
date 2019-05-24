@@ -1,0 +1,1 @@
+<script> conssole.log("sessionstorage value = %%CUSTOM:value1")</script>

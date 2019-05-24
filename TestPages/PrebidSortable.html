@@ -1,0 +1,74 @@
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Sortable Integration</title>
+        <script src="https://dggaenaawxe8z.cloudfront.net/ads/prebid1.25.0.js" async></script>
+    </head>
+    <body>
+        <script>
+             var pbjs = pbjs || {};
+                pbjs.que = pbjs.que || [];
+                var adUnits =  [
+                    {
+                        code: '300x250',
+                        mediaTypes: {
+                            banner: {
+                                sizes: [[300, 250]],
+                            }
+                        },
+                        bids: [{
+                            bidder: 'sortable',
+                            params: {
+                                tagId: 'D - Sortable - Sizeless'
+                            }
+                        }],
+                    },
+                    {
+                            code:'300x250_nx',
+                            mediaTypes: {
+                                banner: {
+                                    sizes: [[300, 250]],
+                                }
+                            },
+                            bids: [{
+                                bidder: 'appnexus',
+                                params: {placementId: 7294438}
+                            }]
+                    }
+                ]
+
+                const customConfigObject = {
+                            "buckets" : [{"precision": 2, "min" : 0, "max" : 3.5, "increment" : 0.05},{"precision": 2, "min" : 3.5, "max" : 35, "increment" : 0.10}]
+                        };
+
+                pbjs.que.push(function() {
+                    pbjs.setConfig({
+                      sortable: {
+                        siteId: '4-traders.com'
+                      },
+                      userSync: {
+                        enableBidders: ['sortable'],
+                        iframeEnabled: true
+                      },
+                      priceGranularity: customConfigObject
+                    });
+                    pbjs.addAdUnits(adUnits);
+                });
+
+            function getBids() {
+                 pbjs.que.push(function() {
+                    pbjs.requestBids({
+                        bidsBackHandler: bidCallback
+                    });
+                });
+            }
+
+            function bidCallback() {
+                console.log(pbjs.getBidResponses())
+            }
+        </script>
+        <button onclick="getBids()">Get Bids</button>
+    </body>
+    </html>

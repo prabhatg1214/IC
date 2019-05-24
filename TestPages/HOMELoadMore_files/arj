@@ -1,0 +1,9 @@
+ic_openx_callback({"ads":
+ {
+  "version": 1,
+  "count": 0,
+  "pixels":"https://jp-u.openx.net/w/1.0/pd?plm=6&ph=b8ebf937-0729-479a-9d75-4988d14491af&gdpr=0",
+  "oxt": 9.57,
+  "ad": []
+ }
+});
