@@ -1,1 +1,0 @@
-mdjs._dL['ct'] = {'MKTUP':'1','MKTVolatile':'1'};mdjs._dL['dt'] = {'mdt_10':'on','mdt_7':'on'};mdjs._dL['d'] = ["mdt_10","mdt_7"];if(window.hasOwnProperty("mdjsAsyncHandler")){ mdjsAsyncHandler();}if(window.hasOwnProperty("ICMarkitCallback")){ ICMarkitCallback();}
